@@ -1,4 +1,4 @@
-# mapbox_demo
+# Mapbox Demo
 
 ## Demo showcasing Django + MapBox integration.
 ### Links:
