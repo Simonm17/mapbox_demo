@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+
+    <title>Document</title>
+</head>
+<body>
+    <h1>Django Home</h1>
+
+    <form method='POST'>
+    {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="submit address" />
+    </form>
+    
+    <div id='map' style='width: 100%; height: 600px;'></div>
+    <script>
+    mapboxgl.accessToken = '{{ mapbox_access_token }}';
+    var map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11', // style URL
+        center: [-111.061854, 45.695711], // starting position [lng, lat]
+        zoom: 11 // starting zoom
+    });
+    {% for address in addresses %}
+    var marker = new mapboxgl.Marker()
+        .setLngLat([{{ address.long }}, {{ address.lat }}])
+        .setPopup(new mapboxgl.Popup().setHTML("<p>{{ address.address }}</p>"))
+        .addTo(map);
+    {% endfor %}
+    </script>
+</body>
+</html>
